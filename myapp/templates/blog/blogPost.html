@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}BLOG{% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+{%load static %}
+{% block body %}
+
+<div class="container my-3" style="background-color:white ;height: 100%;">
+  <div><h3 class="blog-post-title mb-1">{{post.title}} </h3>
+    <p class="blog-post-meta">{{post.timestamp}} by <a href="about?name={{post.uname}}">{{post.author}}</a></p>
+    {% if m|length < 2  %}
+
+    sorry
+    {% else %}      
+         
+         
+          <div>
+          <a href="update?up={{post.sno}}">Edit Post</a>
+           <div>
+         
+          <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style=" position: absolute; left: 1350px;bottom: 600px;">
+  <img style="height: 30px;" src="{% static 'delete.jpg' %}" alt="Delete">
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         Are You Sure Want to Delete
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         <a  href="delete?sr={{post.sno}}" type="button" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div></div>
+        </div>
+        {% endif %}
+          </div> 
+          <hr>
+  
+          <p>{{post.content}}</p>
+         
+  <!----------------------------------------------------------------------->
+  
+
+
+
+  <!----------------------------------------------------------------------->
+
+
+
+          <hr>
+        <div >
+          <h2>Comments ({{comments.count}})</h2>
+          <div class="container">
+            {% if user.is_authenticated %}
+          <b>Enter Your comment here</b>
+          <form action="postcomment" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment" style="width :100% ; border-radius: 10px;" placeholder="Please enter your valuable comment here">
+            <input type="hidden" name="postSno" value="{{post.sno}}"><br><br>
+            <input type="submit" value="submit" style="border-radius: 10px;">
+          </form>
+           {% else %}
+             <b><i> Please loggin to give your valuable comment</i></b>
+          {% endif %}</div>
+          <hr>  
+          {% for comment in comments %}
+             <div class="row my-3">
+             <div class="col-md-1 "><img src="{% static 'user.jpg' %}" alt="img" style="height: 50px;"></div>
+             <div class="col-md-11 "><b> {{comment.user.username}} , </b> at {{comment.timestamp}}
+              <div>{{comment.comment}}</div>
+            </div>
+          </div>
+       
+        {% endfor %}
+           </div></div>
+        <nav class="blog-pagination" aria-label="Pagination" >
+          <a class="btn btn-outline-primary rounded-pill" href="blog_home">back</a>
+        </nav>
+  
+     </div>  
+{% endblock body %}

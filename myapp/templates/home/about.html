@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}BLOG{% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+{%load static %}
+{% block body %}
+
+
+<div class="container my-3" style="background-color:white ;height: 100%;">
+    <div class="row my-3">
+        <div class="col-md-1 "><img src="/static/user.jpg" alt="img" style="height: 50px;"></div>
+        <div class="col-md-11 "><b> {{user.username}}, </b>
+            {{user.datetime}}
+         <div>this is a nice post</div>
+         
+       </div>
+     </div>
+
+
+    <div class="container">
+        {% if alter|length < 1 %}
+        <ol class=" reg adultRegion"><li class="first last"><div class="dd zrp" style="margin-right:10px"><div class="compText mb-15 fz-m fc-4th wr-bw"><p class="">We did not find results for: <strong><b>{{query}}</b></strong>. Try the suggestions below or type a new query above. </p></div><div class="compText mt-25 mb-8 fz-m fc-4th"><p class="">Suggestions: </p></div><div class="compTextList mb-20 fc-4th"><ul><li class="va-top ml-10 lst-disc lsp-in">Check your spelling. </li><li class="va-top ml-10 lst-disc lsp-in">Try more general words. </li><li class="va-top ml-10 lst-disc lsp-in">Try different words that mean the same thing. </li></ul></div></div></li></ol>
+        {% endif %}
+        {% for post in alter %} 
+       
+     <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative container my-3" style="width: 700px;text-align: left;background-color: white;">
+         <div class="col p-4 d-flex flex-column position-static">
+           <strong class="d-inline-block mb-2 text-primary">Article by : {{post.author}}</strong>
+           <div><h3 class="mb-0">{{ post.title }}</h3>
+            
+            </div>
+           <div class="mb-1 text-muted">{{ post.datetime }}</div>
+           <p class="card-text mb-auto">{{post.content | truncatechars:100 }}</p>
+           <div><a href="{{post.slug}}?sr" class="stretched-link">Continue reading</a></div>
+         </div>
+         <div class="col-auto d-none d-lg-block">
+         </div> 
+         
+       </div>
+
+       {% endfor %}
+        
+     </div> 
+    
+</div>
+
+
+{% endblock body %}
+

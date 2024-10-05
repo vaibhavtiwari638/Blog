@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap-5.2.0-dist\css\bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap-5.2.0-dist\js\bootstrap.bundle.min.js' %}"></script>
+    <style>
+      body{
+            background-image: url("{% static 'back.jpg'%}") ;
+            background-attachment: fixed;
+            height: 100%;  
+      }
+    </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info bg-gradient">
+    <div class="container-fluid">
+      <a class="navbar-brand" href=""><img src="{% static 'index.jpg' %}" alt="" style="height: 40px; border-radius: 5px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item ">
+            <a class="nav-link {% block homeactive %}{% endblock homeactive %}   " aria-current="" href="home">Home</a>
+          </li>
+     <!--  <li class="nav-item ">
+            <a class="nav-link  {% block aboutactive %}{% endblock aboutactive %} " aria-current="about" href="about">about</a>
+          </li>-->
+          <li class="nav-item">
+            <a class="nav-link {% block blogactive %}{% endblock blogactive %}" href="blog_home">blog</a>
+          </li>
+          
+          <li class="nav-item ">
+            <a class="nav-link {% block contactactive %}{% endblock contactactive %} " href="contact">contact</a>
+          </li>
+          
+         
+        </ul>
+        <form method="get" action="search" class="d-flex mx-3
+        " role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query">
+          <button class="btn btn-success bg-primary bg-gradient " type="submit">Search</button>
+           
+        </form>
+<!--<a href="admin" type="button" class="btn btn-outline-success" >Admin</a>-->
+<div>
+
+  {% if user.is_authenticated %}
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color :blue;"> Welcome  {{request.user}}
+    
+    </a>
+    <div class="dropdown-menu">
+       <a class="dropdown-item" href="profile">Profile</a>
+       <a class="dropdown-item" href="post">Add Post</a>
+       <a class="dropdown-item" href="log_out">logout</a>
+       <div class="dropdown-divider"></div>
+      <!-- <a class="dropdown-item" href="#">Something else here</a>-->
+    </div>
+  </li></ul>
+ 
+  {% else %}
+<!-- Button trigger modal -->
+      <button type="button" class="btn btn-success bg-primary bg-gradient " data-bs-toggle="modal" data-bs-target="#Register">
+      Register
+      </button>
+  {% endif %}
+
+<!--Regiser-modal-->
+<div class="modal fade" id="Register" tabindex="-1" aria-labelledby="Register" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Register">Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <center><br>
+        
+<!-- Button trigger Signupmodal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupmodal">
+  SignUp
+</button><br>
+
+
+<br>OR<br><br>
+
+<!-- Button trigger Logginmodal -->
+   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginmodal">
+    Login
+   </button></center>
+
+ 
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- signup Modal -->
+<div class="modal fade" id="signupmodal" tabindex="-1" aria-labelledby="signupmodal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupmodal">SignUp Here</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="signup" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="Username" class="form-label">Username</label>
+            <input type="text" name="Username" class="form-control" id="Username" placeholder="select a unique username( only alphanumeric)" required>
+          </div>
+          <div class="form-group">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="fname" id="fname" placeholder="first name" required>
+          </div>
+          <div class="form-group">
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="lname" id="lname" placeholder="last name" required>
+          </div>
+          <div class="form-group">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Enter Your Password" required>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="pass2" id="pass2" placeholder="confirm password" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" >
+          </div>
+          
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+         
+
+<!-- Login modal-->
+<div class="modal fade" id="loginmodal" tabindex="-1" aria-labelledby="loginmodal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginmodal">Login Here</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="log_in" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="loginusername" class="form-label">Username</label>
+            <input type="text" name="loginusername" class="form-control" id="loginusername" placeholder="select a unique username">
+          </div>
+          
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="pass" id="pass" placeholder="Enter Your Password">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <input type="submit" class="btn btn-primary">
+          </div>
+          
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+</div>
+
+
+      </div>
+    </div>
+  </nav>
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
+      <strong>message :</strong>{{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+
+      {% block body %}
+      {% endblock body %}
+</body>
+</html>
+
+<!--<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+         <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>-->
+

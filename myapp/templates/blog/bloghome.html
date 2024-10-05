@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}BLOG{% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+{%load static %}
+{% block body %}
+
+    <center>
+        <div  style="width: 700px;text-align: left;"><h2>Popular Blogpost :-</h2></div>
+        <p>
+       {% for post in allPosts %}     
+
+      
+
+<div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative" style="width: 700px;text-align: left;background-color: white;">
+  <div class="col p-4 d-flex flex-column position-static" style="background-color:white ;">
+    <strong class="d-inline-block mb-2 text-primary">Article by : {{post.author}}</strong>
+    <h3 class="mb-0">{{post.title }}</h3>
+    <div class="mb-1 text-muted">{{post.datetime }}</div>
+    <p class="card-text mb-auto">{{post.content | truncatechars:100 }}</p>
+    <a href="{{post.slug}}" class="stretched-link">Continue reading</a>
+  </div>
+  <div class="col-auto d-none d-lg-block">
+  </div>
+  
+</div>
+      {% endfor %}
+        </p>
+        <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
+            <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
+          </nav>
+    </center>
+
+{% endblock body %}
+
+

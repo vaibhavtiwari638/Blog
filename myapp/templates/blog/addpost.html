@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}BLOG{% endblock title %}
+{% block blogactive %} active {% endblock blogactive %}
+{%load static %}
+{% block body %}
+<h3 >You can add your post here ,</h3>
+<div class="container" >
+<form action="addpost" method="post">
+{% csrf_token %}
+<div class="mb-3">
+    <label for="heading" class="form-label"><b> Title :</b></label>
+    <input type="text"  name="heading" id="matter" class="form-control" >
+  </div>
+
+
+  <div class="mb-3">
+    <label for="matter" class="form-label"><b> New Content :</b> </label>
+    <textarea class="form-control"  name="matter" id="matter" rows="10" cols="30">
+    </textarea>
+  </div>
+  <input type="submit">
+</div>
+</form>
+{% endblock body %}
